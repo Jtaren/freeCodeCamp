@@ -27,6 +27,54 @@ def arithmetic_arranger(problems, show_answers=False):
 # Check operand length
         elif len(number) > 4:
             return "Error: Numbers cannot be more than four digits."
+
+# Evaluation
+    answers = []
+    top_row = ''
+    bottom_row = ''
+    answer_row = ''
+    dashes = ''
+
+    for i in range(0, len(numbers), 2):
+        num1 = int(numbers[i])
+        num2 = int(numbers[i + 1])
+        operator = operators[i // 2]
+
+        if operator == '+':
+            result = num1 + num2
+        else:
+            result = num1 - num2
+        answers.append(result)
     
-    return problems
-print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}')
+
+# formatting problem rows
+
+        space_width = max(len(numbers[i]), len(numbers[i + 1])) + 2
+        top_row += numbers[i].rjust(space_width)
+        bottom_row += operator + numbers[i + 1].rjust(space_width - 1)
+        dashes += '-' * space_width
+
+# Spacing between problems
+        if i != len(numbers) - 2:
+            top_row += ' ' * 4
+            bottom_row += ' ' * 4
+            dashes += ' ' * 4
+
+# Formatting Answers row
+    for i in range(len(answers)):
+        space_width = max(len(numbers[2 * i]), len(numbers[2 * i + 1])) + 2
+        answer_row += str(answers[i]).rjust(space_width)
+
+# Spacing between answers
+        if i != len(answers) - 1:
+            answer_row += ' ' * 4
+
+# Final arrangement and return
+    if show_answers:
+        arranged_problems = '\n'.join((top_row, bottom_row, dashes, answer_row))
+    else:
+        arranged_problems = '\n'.join((top_row, bottom_row, dashes))
+        print(answer_row)
+
+    return arranged_problems
+print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"], True)}')
